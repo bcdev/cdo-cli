@@ -1,0 +1,27 @@
+<task>
+    <taskId>landpoints-mean</taskId>
+    <version>1.0</version>
+    <description>Select land points and calculate the mean</description>
+    <originator>BC</originator>
+
+    <parameters>
+        <parameter name="land-water-mask"
+                   description="name of the land-water-mask file"
+                   shortDescription="land-water-mask file"/>
+
+        <parameter name="min-land-fraction"
+                   description="minimum fractional land coverage of a grid point to be considered as land point"
+                   shortDescription="minimum land fraction"
+                   default="0.5"/>
+
+        <parameter name="ofile-name-pattern"
+                   description="pattern used for generating output file names"
+                   shortDescription="output file name pattern"
+                   default="${ifile-basename}_landpoints_mean.nc"/>
+    </parameters>
+
+    <commands>
+        <assertNonrotatedGrid ifile="${ifile}"/>
+        <cdo>fldmean -ifthen -gec,${min-land-fraction} ${land-water-mask} ${ifile} ${ofile}</cdo>
+    </commands>
+</task>

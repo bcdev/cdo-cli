@@ -1,0 +1,9 @@
+<select name="letter">
+    <case value="A">
+        <echo>I am an A.</echo>
+    </case>
+    <case value="B">
+        <echo>I am a B,</echo>
+        <echo>not an A.</echo>
+    </case>
+</select>

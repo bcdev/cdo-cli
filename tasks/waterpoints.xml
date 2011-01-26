@@ -1,0 +1,27 @@
+<task>
+    <taskId>waterpoints</taskId>
+    <version>1.0</version>
+    <description>Select water points</description>
+    <originator>BC</originator>
+
+    <parameters>
+        <parameter name="land-water-mask"
+                   description="name of the land-water-mask file"
+                   shortDescription="land-water-mask file"/>
+
+        <parameter name="max-land-fraction"
+                   description="maximum fractional land coverage of a grid point to be considered as water point"
+                   shortDescription="maximum land fraction"
+                   default="0.5"/>
+        
+        <parameter name="ofile-name-pattern"
+                   description="pattern used for generating output file names"
+                   shortDescription="output file name pattern"
+                   default="${ifile-basename}_waterpoints.nc"/>
+    </parameters>
+
+    <commands>
+        <assertNonrotatedGrid ifile="${ifile}"/>
+        <cdo>ifthen -ltc,${max-land-fraction} ${land-water-mask} ${ifile} ${ofile}</cdo>
+    </commands>
+</task>

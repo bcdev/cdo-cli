@@ -1,0 +1,9 @@
+mpg.mpimet.cdo.core.support.AffixToVarNamesCommand$Spi
+mpg.mpimet.cdo.core.support.AssertNonrotatedGridCommand$Spi
+mpg.mpimet.cdo.core.support.CdoCommand$Spi
+mpg.mpimet.cdo.core.support.ValidateTimeStepsCommand$Spi
+mpg.mpimet.cdo.core.support.EchoCommand$Spi
+mpg.mpimet.cdo.core.support.ParallelCommand$Spi
+mpg.mpimet.cdo.core.support.PropertyCommand$Spi
+mpg.mpimet.cdo.core.support.SelectCommand$Spi
+mpg.mpimet.cdo.core.support.TempFileCommand$Spi

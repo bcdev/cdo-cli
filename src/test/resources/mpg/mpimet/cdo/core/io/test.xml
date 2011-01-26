@@ -1,0 +1,22 @@
+<task>
+    <taskId>test</taskId>
+    <version>1.0</version>
+    <description>Test task</description>
+    <originator>BC</originator>
+
+    <parameters>
+        <parameter name="ifile"/>
+        <parameter name="ofile"/>
+        <parameter name="istep" valueSet="hour,day,month"/>
+        <parameter name="ostep" valueSet="day,month,year"/>
+    </parameters>
+
+    <commands>
+        <tempFile name="temp-min"/>
+        <tempFile name="temp-max"/>
+
+        <cdo>timmin ${ifile} ${tempMin}</cdo>
+        <cdo>timmax ${ifile} ${tempMax}</cdo>
+        <cdo>merge ${tempMin} ${tempMax} ${ofile}</cdo>
+    </commands>
+</task>

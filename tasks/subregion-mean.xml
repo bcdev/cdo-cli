@@ -1,0 +1,23 @@
+<task>
+    <taskId>subregion-mean</taskId>
+    <version>1.0</version>
+    <description>Select a rectangular subregion and calculate the mean</description>
+    <originator>BC</originator>
+
+    <parameters>
+        <parameter name="box"
+                   description="longitude-latitude box given by comma-separated list of western longitude, eastern longitude, southern latitude, and northern latitude"
+                   shortDescription="longitude-latitude box WLON,ELON,SLAT,NLAT"
+                   type="box"/>
+        
+        <parameter name="ofile-name-pattern"
+                   description="pattern used for generating output file names"
+                   shortDescription="output file name pattern"
+                   default="${ifile-basename}_subregion_mean.nc"/>
+    </parameters>
+
+    <commands>
+        <assertNonrotatedGrid ifile="${ifile}"/>
+        <cdo>fldmean -sellonlatbox,${box} ${ifile} ${ofile}</cdo>
+    </commands>
+</task>

@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# If you have problems running this script try to set
+# the absolute path of CDO_CLI_HOME here:
+# export CDO_CLI_HOME="$HOME/usr/cdo-cli-${project.version}"
+
+# Only set CDO_CLI_HOME if not already set
+
+PRGDIR=`dirname $0`
+
+if [ -z "$CDO_CLI_HOME" ]
+then
+    export CDO_CLI_HOME=`cd "$PRGDIR/.." ; pwd`
+fi
+
+if [ ! -x "$CDO_CLI_HOME/bin/cdo-cli" ]
+then
+    echo "The CDO_CLI_HOME environment variable is  not defined correctly. This"
+    echo "environment variable is needed for running the command line interface"
+    echo "to the climate data operators (CDO)."
+    exit
+fi
+
+CLIEXE="$CDO_CLI_HOME/bin/cdo-cli"
+CONFIG="$CDO_CLI_HOME/testsuit/config.properties"
+TSDATA="$CDO_CLI_HOME/testsuit/data"
+
+$CLIEXE -c $CONFIG subregion box=-180.0,180.0,-90.0,90.0          $TSDATA/*.nc
+$CLIEXE -c $CONFIG field-mean                                     $TSDATA/*.nc
+
+$CLIEXE -c $CONFIG calendar-year-stat-mean istep=day   ostep=year $TSDATA/*.nc
+$CLIEXE -c $CONFIG calendar-year-stat-sum  istep=day   ostep=year $TSDATA/*.nc
+$CLIEXE -c $CONFIG 10-year-stat-mean       istep=month            $TSDATA/*.nc
+$CLIEXE -c $CONFIG 30-year-stat-mean       istep=month            $TSDATA/*.nc
+$CLIEXE -c $CONFIG seasonal-stat-mean      istep=day              $TSDATA/*.nc
+$CLIEXE -c $CONFIG trend                   istep=month            $TSDATA/*.nc

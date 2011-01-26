@@ -1,0 +1,35 @@
+<task>
+    <taskId>test</taskId>
+    <version>1.0</version>
+    <description>Test task</description>
+    <originator>BC</originator>
+
+    <parameters>
+        <parameter name="istep"
+                   description="input time stepping"
+                   shortDescription="input time stepping"
+                   valueSet="hour,day,month"/>
+        
+        <parameter name="ostep"
+                   description="output time stepping"
+                   shortDescription="output time stepping"
+                   valueSet="day,month,year:${istep}"/>
+
+        <parameter name="box"
+                   description="longitude-latitude box given by comma-separated list of western longitude, eastern longitude, southern latitude, and northern latitude"
+                   shortDescription="longitude-latitude box WLON,ELON,SLAT,NLAT"
+                   type="box"/>
+
+        <parameter name="ofile-name-pattern"
+                   description="pattern used for generating output file names"
+                   shortDescription="output file name pattern"
+                   default="${ifile-basename}_test.nc"/>
+    </parameters>
+
+    <commands>
+        <echo>istep = ${istep}</echo>
+        <echo>ostep = ${ostep}</echo>
+        <echo>box = ${box}</echo>
+        <echo>ofile-name-pattern = ${ofile-name-pattern}</echo>
+    </commands>
+</task>

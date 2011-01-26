@@ -1,0 +1,56 @@
+CDO command line interface, version 1.0
+December 14, 2007
+
+usage : cdo-cli [OPTIONS] [TASK [PARAMETERS]] [OPERANDS]
+
+
+OPTIONS
+
+    -c FILE
+        the path of the configuration file to be loaded
+
+    -d DIR
+        the path of the output directory
+
+    -o FILE
+        the path or name of the output file
+
+    -p
+        the user is prompted for all (obligatory) task parameters
+
+
+TASK
+
+    The base name of one of the XML files in the 'task' directory
+
+
+PARAMETERS
+
+    istep=ISTEP
+        the time step of the input time series to be processed
+
+    ostep=OSTEP
+        the time step of the output time series to be calculated
+
+    box=WLON,ELON,SLAT,NLAT
+        western longitude, eastern longitude, southern latitude, northern
+        latitude for selecting a subregion
+
+    land-water-mask=FILE
+        the file path of the land-water mask for selecting either land or
+        water points
+
+    min-land-fraction=FRACTION
+        any grid point with fractional land  coverage equal to or greater
+        than this value is considered as as land point. The default value
+        is 0.5
+
+    max-land-fraction=FRACTION
+        any grid point with fractional land coverage less than this value
+        is considered as water point. The default value is 0.5
+
+    
+OPERANDS
+
+    The input file paths
+

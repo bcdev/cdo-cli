@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# If you have problems running this script try to set
+# the absolute path of CDO_CLI_HOME here:
+# export CDO_CLI_HOME="$HOME/usr/cdo-cli-${project.version}"
+
+# Only set CDO_CLI_HOME if not already set
+
+PRGDIR=`dirname $0`
+
+if [ -z "$CDO_CLI_HOME" ]
+then
+    export CDO_CLI_HOME=`cd "$PRGDIR/.." ; pwd`
+fi
+
+if [ ! -x "$CDO_CLI_HOME/bin/cdo-cli" ]
+then
+    echo "The CDO_CLI_HOME environment variable is  not defined correctly. This"
+    echo "environment variable is needed for running the command line interface"
+    echo "to the climate data operators (CDO)."
+    exit
+fi
+
+java -jar "$CDO_CLI_HOME/lib/cdo-cli-${project.version}.jar" "$@"

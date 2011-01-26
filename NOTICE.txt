@@ -1,0 +1,23 @@
+This is the Release Candidate 5 of the command line interface
+to the climate data operators (CDO).
+
+
+New in RC 5:
+
+- bugfix in parser
+
+
+New in RC 4:
+
+- corrected subregion task files
+- new configuration parameter for accepting or rejecting input time series
+- new configuration parameter for console log level
+
+
+New in RC 3
+
+- option '-c' implemented
+
+Known issues:
+
+- no documentation

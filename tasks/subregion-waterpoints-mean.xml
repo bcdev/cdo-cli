@@ -1,0 +1,32 @@
+<task>
+    <taskId>subregion-waterpoints-mean</taskId>
+    <version>1.0</version>
+    <description>Select water points in a rectangular subregion and calculate the mean</description>
+    <originator>BC</originator>
+
+    <parameters>
+        <parameter name="box"
+                   description="longitude-latitude box given by comma-separated list of western longitude, eastern longitude, southern latitude, and northern latitude"
+                   shortDescription="longitude-latitude box WLON,ELON,SLAT,NLAT"
+                   type="box"/>
+
+        <parameter name="land-water-mask"
+                   description="name of the land-water-mask file"
+                   shortDescription="land-water-mask file"/>
+
+        <parameter name="max-land-fraction"
+                   description="maximum fractional land coverage of a grid point to be considered as water point"
+                   shortDescription="maximum land fraction"
+                   default="0.5"/>
+        
+        <parameter name="ofile-name-pattern"
+                   description="pattern used for generating output file names"
+                   shortDescription="output file name pattern"
+                   default="${ifile-basename}_subregion_waterpoints_mean.nc"/>
+    </parameters>
+
+    <commands>
+        <assertNonrotatedGrid ifile="${ifile}"/>
+        <cdo>fldmean -ifthen -ltc,${max-land-fraction} -sellonlatbox,${box} ${land-water-mask} -sellonlatbox,${box} ${ifile} ${ofile}</cdo>
+    </commands>
+</task>

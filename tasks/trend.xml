@@ -1,0 +1,45 @@
+<task>
+    <taskId>trend</taskId>
+    <version>1.0</version>
+    <description>Calculate the trend of an input time series</description>
+    <originator>BC</originator>
+
+    <parameters>
+        <parameter name="istep"
+                   description="input time stepping"
+                   shortDescription="input time stepping"
+                   valueSet="${one-month},${one-year}"/>
+        
+        <parameter name="ofile-name-pattern"
+                   description="pattern used for generating output file names"
+                   shortDescription="output file name pattern"
+                   default="${ifile-basename}_trend.nc"/>
+    </parameters>
+
+    <commands>
+        <validateTimeSteps name="valid" ifile="${ifile}" istep="${istep}" itime="${one-year}"
+                           integralMultipleAcceptable="true"/>
+
+        <select name="valid">
+            <case value="true">
+                <tempFile name="temp-a-file"/>
+                <tempFile name="temp-b-file"/>
+
+                <cdo>trend ${ifile} ${temp-a-file} ${temp-b-file}</cdo>
+
+                <tempFile name="a-file"/>
+                <tempFile name="b-file"/>
+                <tempFile name="merged-file"/>
+
+                <parallel>
+                    <affixToVarNames affix="_${trend-a-affix}" ifile="${temp-a-file}" ofile="${a-file}"/>
+                    <affixToVarNames affix="_${trend-b-affix}" ifile="${temp-b-file}" ofile="${b-file}"/>
+                </parallel>
+
+                <cdo>merge ${a-file} ${b-file} ${merged-file}</cdo>
+                <cdo>settunits,${time-units} -setreftime,${reference-date},${reference-time} -setcalendar,${calendar} ${merged-file} ${ofile}</cdo>
+            </case>
+        </select>
+
+    </commands>
+</task>

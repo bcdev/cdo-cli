@@ -1,0 +1,437 @@
+\documentclass[
+square
+,pdftex
+%,smallborder
+]{refrep}
+\usepackage{charter}
+\usepackage[pdfborder=000,pdfhighlight=/N]{hyperref}
+\usepackage{makeidx}
+\usepackage{manfnt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\title{CDO Command Line Interface User's Guide and Reference}
+
+\author{Ralf Quast\\
+  Brockmann Consult\\
+  Max-Planck-Stra\ss e 2\\
+  21502 Geesthacht}
+
+\date{Version 1.0}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\newcommand{\bc}{\href{http://www.brockmann-consult.de/}
+    {Brockmann Consult}}
+\newcommand{\cdo}{\href{http://www.mpimet.mpg.de/cdo/}{CDO}}
+\newcommand{\cdolong}{\href{http://www.mpimet.mpg.de/cdo/}
+    {Climate Data Operators}}
+\newcommand{\gpl}{\href{http://www.gnu.org/licenses/gpl-3.0.html}
+    {GNU General Public License}}
+\newcommand{\java}{\href{http://java.sun.com/}{Java}}
+\newcommand{\mpimet}{\href{http://www.mpimet.mpg.de/}
+    {Max Planck Institute for Meteorology}}
+\newcommand{\javase}{\href{http://java.sun.com/javase/downloads/}
+    {Java SE Downloads}}
+\newcommand{\zmaw}{\href{http://www.zmaw.de/}{ZMAW}}
+
+\renewcommand{\attentionsymbol}{\textdbend}
+\makeatletter
+\renewenvironment{theindex}
+               {\if@twocolumn
+                  \@restonecolfalse
+                \else
+                  \@restonecoltrue
+                \fi
+                \begin{fullpage}
+                \let\twocolumn\REF@twocolumn
+                \columnseprule \z@
+                \columnsep 35\p@
+                \if@pageperchapter
+                   \setcounter{page}{1}
+                   \ifnum \c@secnumdepth >\m@ne
+                      \refstepcounter{chapter}%
+                      \typeout{\@chapapp\space\thechapter.}%
+                      \addcontentsline{toc}{chapter}
+                         {\protect\numberline{\thechapter}\indexname}%
+                   \else
+                      \addcontentsline{toc}{chapter}{\indexname}%
+                   \fi
+                   \addtocontents{lof}{\protect\addvspace{10\p@}}%
+                   \addtocontents{lot}{\protect\addvspace{10\p@}}%
+                   \chapter*{\indexname}
+                \else
+                   \chapter*{\indexname}
+                   \addcontentsline{toc}{chapter}{\indexname}%
+                \fi
+                \@mkboth{\indexname}%
+                        {\indexname}%
+                \parindent\z@
+                \parskip\z@ \@plus .3\p@\relax
+                \let\item\@idxitem}
+               {\end{fullpage}\if@restonecol\onecolumn\else\clearpage\fi}
+\makeatother
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{headings}
+\emergencystretch1em
+
+\setcounter{tocdepth}{2}
+\makeindex
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\begin{document}
+
+\begin{fullpage}
+\maketitle
+\end{fullpage}
+
+\tableofcontents
+\newpage
+
+\chapter{Introduction}
+
+The \cdo\ Command Line Interface (CLI) is a command line tool which, for a
+certain set of tasks, provides a simplified usage of the \cdolong\ (CDO)
+developed by the \mpimet.
+
+The CDO-CLI has been developed by \bc\ under contract awarded by
+\zmaw\ \href{http://www.mad.zmaw.de/}{M\&D} and is distributed under
+the \gpl\ (GPL).
+
+\paragraph{Installation}
+\seealso{Chapter~\ref{installation}}
+Besides a recent version of the \cdo\ software, running the CDO-CLI requires
+the \java\ Runtime Environment 6 or later. Please consult your system
+administrator if your system is not compliant. Installing and checking the
+CDO-CLI is described in Chapter~\ref{installation}.
+
+\paragraph{Configuration}
+\seealso{Chapter~\ref{configuration}}
+The behaviour of the CDO-CLI is configurable to a certain degree. The default
+configuration very likely suits your needs. Configuring the CDO-CLI is described
+in Chapter~\ref{configuration}.
+
+\paragraph{Command Line Usage}
+\seealso{Chapter~\ref{cli}}
+The CDO-CLI provides a simple command line interface to the CDO software. The
+usage of this command line interface is explicitly described in
+Chapter~\ref{cli}.
+
+\paragraph{Defining Tasks}
+\seealso{Chapter~\ref{taskDef}}
+The vendor supplied set of tasks can easily be extended by providing user
+defined tasks. The definition of tasks is explicitly described in
+Chapter~\ref{taskDef}.
+
+\paragraph{Task Reference}
+\seealso{Chapter~\ref{taskRef}}
+The vendor supplied tasks supported by the CDO-CLI include the calculation of
+time series statistics as well as the selection of land grid points, water grid
+points, and regional subsets. The complete set of vendor supplied tasks is
+described in Chapter~\ref{taskRef}.
+
+\paragraph{Command Reference}
+\seealso{Chapter~\ref{commandRef}}
+The task definition language includes a certain set of commands, which is
+explicitly described in Chapter~\ref{commandRef}.
+
+
+\chapter{Installation}
+\label{installation}
+
+\section{System requirements}
+
+\subsection{Java Runtime Environment (JRE)}
+Running the CDO-CLI software requires \java\ Runtime Environment 6 or later. To
+verify the version of the installed JRE open a terminal window and type:
+
+\begin{verbatim}
+    java -version
+\end{verbatim}
+
+The output of this command should be similar to:
+
+\begin{verbatim}
+    java version "1.6.0"
+    Java(TM) SE Runtime Environment ...
+    Java HotSpot(TM) Client VM ...
+\end{verbatim}
+
+The latest JRE for Linux, Solaris and Windows can be obtained from \javase. In
+order to install the \java\ software, please follow the instructions given on
+\javase\ or consult your system administrator.
+
+\subsection{Climate Data Operators (CDO)}
+Running the CDO-CLI software also requires \cdo\ version 1.0.9 or later. The
+most recent version of this software can be obtained from the \mpimet. In order
+to install the \cdo\ software, please follow the accompanying instructions or
+consult your system administrator.
+
+\section{Installation instructions}
+
+\subsection{Installing}
+For installing the CDO-CLI software simply unpack the ZIP archive 
+
+\begin{verbatim}
+    unzip cdo-cli-1.0-distribution.zip
+\end{verbatim}
+
+and move the resulting directory to your favourite location, for example: 
+
+\begin{verbatim}
+    mv cdo-cli-1.0 ${HOME}
+\end{verbatim}
+
+The CDO-CLI executables then reside in
+
+\begin{verbatim}
+    ${HOME}/cdo-cli-1.0/bin
+\end{verbatim}
+
+You probably want to make these executable generally accessible from the command
+line by editing the PATH environment variable defined in your user profile, for
+example:
+
+\begin{verbatim}
+    PATH="${PATH}:${HOME}/cdo-cli-1.0/bin"; export PATH
+\end{verbatim}
+
+In addition, you might have to customize the CDO-CLI configuration properties
+defined in
+
+\begin{verbatim}
+    ${HOME}/cdo-cli-1.0/config.properties
+\end{verbatim}
+
+\attention
+Note that the property defining the path of the \cdo\ executable must correspond
+to a \cdo\ executable actually installed on your system. For example, define
+
+\begin{verbatim}
+    cdo-path                = ${user.home}/bin/cdo
+\end{verbatim}
+
+when the \cdo\ executable is installed in your home directory. All configuration
+options are explained in detail in Chapter~\ref{configuration}.
+
+\subsection{Checking}
+For checking the CDO-CLI installation, open a terminal window and type:
+
+\begin{verbatim}
+    cdo-cli
+\end{verbatim}
+
+You should read the CDO-CLI usage message. Then type:
+ 
+\begin{verbatim}
+    cdo-cli-test
+\end{verbatim}
+
+When the CDO-CLI software is working properly, the resulting output will be
+similar to:
+
+\begin{verbatim}
+    task subregion completed in 0.005 minutes
+    task field-mean completed in 0.004 minutes
+    task calendar-year-stat-mean completed in 0.018 minutes
+    task calendar-year-stat-sum completed in 0.008 minutes
+    task 10-year-stat-mean completed in 0.017 minutes
+    task 30-year-stat-mean completed in 0.017 minutes
+    task seasonal-stat-mean completed in 0.017 minutes
+    task trend completed in 0.007 minutes
+\end{verbatim}
+
+You might also study the log file
+
+\begin{verbatim}
+    cdo-cli.log
+\end{verbatim}
+
+if you are interested in details. Note that it is expected that the log
+report exhibits warnings. Severe errors, however, are not expected; any
+occurrence of the word \emph{severe} in the log file clearly indicates
+that the software does not run properly.
+
+\chapter{Configuration}
+\label{configuration}
+
+The behaviour of the CDO-CLI is configurable to a certain degree. The
+actual configuration is stored in the file
+
+\begin{verbatim}
+    config.properties
+\end{verbatim}
+
+which is located in the main directory of the CDO-CLI installation. There
+are several name-value pairs defined in the configuration file, each of which
+controls a certain behaviour.
+
+\begin{description}
+
+\item[cdo-path]\index{cdo-path}
+The path (or a colon-separated list of paths) indicating where the \cdo\
+executable is installed on your system. The preconfigured value is suited
+for users at \zmaw.
+
+\item[output-directory]\index{output-directory}
+The directory path where all output stored, except for temporary files and
+the log file; the latter is always written to the current working directory.
+The preconfigured value corresponds to the current working directory:
+ 
+\begin{verbatim}
+    output-directory        = .
+\end{verbatim}
+
+\item[prompt]\index{prompt}
+If set to \emph{true} the user is asked to either accept or reject input
+files with an unexpected number of time steps. If set to \emph{false} such
+files are accepted but a warning is logged. The preconfigured value is:
+
+\begin{verbatim}
+    prompt                  = false
+\end{verbatim}
+
+\item[log-level]\index{log-level}
+Only messages corresponding to a level higher than or equal to the value of
+this property are logged. The possible values of this property are \emph{off},
+\emph{severe}, \emph{warning}, \emph{info}, \emph{fine}, \emph{finer},
+\emph{finest}, and \emph{all}. The preconfigured value is:
+
+\begin{verbatim}
+    log-level               = info
+\end{verbatim}
+
+Note that the values for this property are not case sensitive.
+
+\item[console-log-level]\index{console-log-level}
+Only messages corresponding to a level higher than or equal to the value of
+this property appear on the console. The possible values of this property are
+\emph{off}, \emph{severe}, \emph{warning}, \emph{info}, \emph{fine},
+\emph{finer}, \emph{finest}, and \emph{all}. The preconfigured value is:
+
+\begin{verbatim}
+    console-log-level       = info
+\end{verbatim}
+
+Note that a value corresponding to a level lower than the log level has no
+effect.
+
+\item[temp-dir-path]\index{temp-dir-path}
+The directory path used for storing temporary files. The preconfigured value
+corresponds to the directory where the system usually stores temporary files:
+\begin{verbatim}
+    temp-dir-path           = ${java.io.tmpdir}
+\end{verbatim}
+
+\item[temp-file-prefix]\index{temp-file-prefix}
+The prefix prepended to the name of temporary files created by the CDO-CLI. The
+preconfigured value is:
+\begin{verbatim}
+    temp-file-prefix        = cdo-cli
+\end{verbatim}
+
+\item[temp-file-suffix]\index{temp-file-suffix}
+The suffix appended to the name of temporary files created by the CDO-CLI. The
+preconfigured value is:
+\begin{verbatim}
+    temp-file-suffix        = .nc
+\end{verbatim}
+
+\item[delete-on-exit]\index{delete-on-exit}
+If set to \emph{true} temporary files are deleted on exit of the \java\
+Virtual Machine. If set to \emph{false} temporary files are not deleted.
+The preconfigured value is:
+\begin{verbatim}
+    delete-on-exit          = true
+\end{verbatim}
+
+\end{description}
+
+\attention
+Note that there are further elements defined in configuration file, but only
+those properties listed above are intended to be changed by clients.
+
+\chapter{Command Line Usage}
+\label{cli}
+
+usage : cdo-cli [OPTIONS] [TASK [PARAMETERS]] [OPERANDS]
+
+
+OPTIONS
+
+    -c FILE
+        the path of the configuration file to be loaded
+
+    -d DIR
+        the path of the output directory
+
+    -o FILE
+        the path or name of the output file
+
+    -p
+        the user is prompted for all (obligatory) task parameters
+
+
+TASK
+
+    The base name of one of the XML files in the 'task' directory
+
+
+PARAMETERS
+
+    istep=ISTEP
+        the time step of the input time series to be processed
+
+    ostep=OSTEP
+        the time step of the output time series to be calculated
+
+    box=WLON,ELON,SLAT,NLAT
+        western longitude, eastern longitude, southern latitude, northern
+        latitude for selecting a subregion
+
+    land-water-mask=FILE
+        the file path of the land-water mask for selecting either land or
+        water points
+
+    min-land-fraction=FRACTION
+        any grid point with fractional land  coverage equal to or greater
+        than this value is considered as as land point. The default value
+        is 0.5
+
+    max-land-fraction=FRACTION
+        any grid point with fractional land coverage less than this value
+        is considered as water point. The default value is 0.5
+
+
+OPERANDS
+
+    The input file paths
+
+
+\chapter{Defining Tasks}
+\label{taskDef}
+
+\section{Properties}
+
+\section{Parameters}
+
+\section{Commands}
+
+
+\chapter{Task Reference}
+\label{taskRef}
+
+\chapter{Command Reference}
+\label{commandRef}
+
+\printindex
+
+\end{document}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

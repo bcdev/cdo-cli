@@ -1,0 +1,76 @@
+<assembly>
+    <id>distribution</id>
+
+    <formats>
+        <format>dir</format>
+        <format>zip</format>
+    </formats>
+
+    <files>
+        <file>
+            <source>README.txt</source>
+            <fileMode>0444</fileMode>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>LICENSE.txt</source>
+            <fileMode>0444</fileMode>
+            <filtered>false</filtered>
+        </file>
+        <file>
+            <source>NOTICE.txt</source>
+            <fileMode>0444</fileMode>
+            <filtered>false</filtered>
+        </file>
+        <file>
+            <source>config.properties</source>
+            <fileMode>0644</fileMode>
+            <filtered>false</filtered>
+        </file>
+        <file>
+            <source>src/main/bin/cdo-cli</source>
+            <outputDirectory>bin</outputDirectory>
+            <fileMode>0755</fileMode>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>src/main/bin/cdo-cli-test</source>
+            <outputDirectory>bin</outputDirectory>
+            <fileMode>0755</fileMode>
+            <filtered>true</filtered>
+        </file>
+    </files>
+
+    <fileSets>
+        <fileSet>
+            <directory>target</directory>
+            <outputDirectory>lib</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+            <fileMode>0444</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>tasks</directory>
+            <outputDirectory>tasks</outputDirectory>
+            <fileMode>0444</fileMode>
+            <excludes>
+                <exclude>test.xml</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>testsuit</directory>
+            <outputDirectory>testsuit</outputDirectory>
+            <fileMode>0444</fileMode>
+        </fileSet>
+    </fileSets>
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+            <outputFileNameMapping>${artifactId}.${extension}</outputFileNameMapping>
+            <fileMode>0444</fileMode>
+        </dependencySet>
+    </dependencySets>
+
+</assembly>

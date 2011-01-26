@@ -1,0 +1,70 @@
+<task>
+    <taskId>10-year-stat-mean</taskId>
+    <version>1.0</version>
+    <description>Calculate statistics for 10 years</description>
+    <originator>BC</originator>
+
+    <parameters>
+        <parameter name="istep"
+                   description="input time stepping"
+                   shortDescription="input time stepping"
+                   valueSet="${one-month},${one-year}"/>
+
+        <parameter name="ofile-name-pattern"
+                   description="pattern used for generating output file names"
+                   shortDescription="output file name pattern"
+                   default="${ifile-basename}_${ten-years}_stat_mean.nc"/>
+    </parameters>
+
+    <commands>
+        <validateTimeSteps name="valid" ifile="${ifile}" istep="${istep}" itime="${ten-years}"/>
+
+        <select name="valid">
+            <case value="true">
+                <tempFile name="temp-mean-file"/>
+                <tempFile name="temp-std-file"/>
+                <tempFile name="temp-min-file"/>
+                <tempFile name="temp-max-file"/>
+                <tempFile name="temp-p10-file"/>
+                <tempFile name="temp-p90-file"/>
+                <tempFile name="temp-count-file"/>
+
+                <parallel>
+                    <cdo>timmean ${ifile} ${temp-mean-file}</cdo>
+                    <cdo>timstd ${ifile} ${temp-std-file}</cdo>
+                    <cdo>timmin ${ifile} ${temp-min-file}</cdo>
+                    <cdo>timmax ${ifile} ${temp-max-file}</cdo>
+                    <cdo>timcount ${ifile} ${temp-count-file}</cdo>
+                </parallel>
+
+                <parallel>
+                    <cdo>timpctl,10 ${ifile} ${temp-min-file} ${temp-max-file} ${temp-p10-file}</cdo>
+                    <cdo>timpctl,90 ${ifile} ${temp-min-file} ${temp-max-file} ${temp-p90-file}</cdo>
+                </parallel>
+
+                <tempFile name="mean-file"/>
+                <tempFile name="std-file"/>
+                <tempFile name="min-file"/>
+                <tempFile name="max-file"/>
+                <tempFile name="p10-file"/>
+                <tempFile name="p90-file"/>
+                <tempFile name="count-file"/>
+                <tempFile name="merged-file"/>
+
+                <parallel>
+                    <affixToVarNames affix="_${ten-years}_${mean-affix}" ifile="${temp-mean-file}" ofile="${mean-file}"/>
+                    <affixToVarNames affix="_${ten-years}_${std-affix}" ifile="${temp-std-file}" ofile="${std-file}"/>
+                    <affixToVarNames affix="_${ten-years}_${min-affix}" ifile="${temp-min-file}" ofile="${min-file}"/>
+                    <affixToVarNames affix="_${ten-years}_${max-affix}" ifile="${temp-max-file}" ofile="${max-file}"/>
+                    <affixToVarNames affix="_${ten-years}_${p10-affix}" ifile="${temp-p10-file}" ofile="${p10-file}"/>
+                    <affixToVarNames affix="_${ten-years}_${p90-affix}" ifile="${temp-p90-file}" ofile="${p90-file}"/>
+                    <affixToVarNames affix="_${ten-years}_${count-affix}" ifile="${temp-count-file}" ofile="${count-file}"/>
+                </parallel>
+
+                <cdo>merge ${mean-file} ${std-file} ${min-file} ${max-file} ${p10-file} ${p90-file} ${count-file} ${merged-file}</cdo>
+                <cdo>settunits,${time-units} -setreftime,${reference-date},${reference-time} -setcalendar,${calendar} ${merged-file} ${ofile}</cdo>
+            </case>
+        </select>
+
+    </commands>
+</task>

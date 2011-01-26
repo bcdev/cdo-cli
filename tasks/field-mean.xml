@@ -1,0 +1,18 @@
+<task>
+    <taskId>field-mean</taskId>
+    <version>1.0</version>
+    <description>Calculate the field mean</description>
+    <originator>BC</originator>
+
+    <parameters>
+        <parameter name="ofile-name-pattern"
+                   description="pattern used for generating output file names"
+                   shortDescription="output file name pattern"
+                   default="${ifile-basename}_field_mean.nc"/>
+    </parameters>
+
+    <commands>
+        <assertNonrotatedGrid ifile="${ifile}"/>
+        <cdo>fldmean ${ifile} ${ofile}</cdo>
+    </commands>
+</task>

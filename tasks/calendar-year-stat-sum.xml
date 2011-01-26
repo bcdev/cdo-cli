@@ -1,0 +1,71 @@
+<task>
+    <taskId>calendar-year-stat-sum</taskId>
+    <version>1.0</version>
+    <description>Calculate calendar year sums</description>
+    <originator>BC</originator>
+
+    <parameters>
+        <parameter name="istep"
+                   description="input time stepping"
+                   shortDescription="input time stepping"
+                   valueSet="${one-hour},${three-hours},${one-day},${one-month}"/>
+
+        <parameter name="ostep"
+                   description="output time stepping"
+                   shortDescription="output time stepping"
+                   valueSet="${one-day},${one-month},${one-year}:${istep}"/>
+
+        <parameter name="ofile-name-pattern"
+                   description="pattern used for generating output file names"
+                   shortDescription="output file name pattern"
+                   default="${ifile-basename}_${ostep}_stat_sum.nc"/>
+    </parameters>
+
+    <commands>
+        <validateTimeSteps name="valid" ifile="${ifile}" istep="${istep}" itime="${one-year}"
+                           integralMultipleAcceptable="true"/>
+
+        <select name="valid">
+            <case value="true">
+                <tempFile name="temp-sum-file"/>
+                <tempFile name="temp-count-file"/>
+
+                <select name="ostep">
+                    <case value="${one-day}">
+                        <parallel>
+                            <cdo>daysum ${ifile} ${temp-sum-file}</cdo>
+                            <cdo>daycount ${ifile} ${temp-count-file}</cdo>
+                        </parallel>
+                    </case>
+
+                    <case value="${one-month}">
+                        <parallel>
+                            <cdo>monsum ${ifile} ${temp-sum-file}</cdo>
+                            <cdo>moncount ${ifile} ${temp-count-file}</cdo>
+                        </parallel>
+                    </case>
+
+                    <case value="${one-year}">
+                        <parallel>
+                            <cdo>yearsum ${ifile} ${temp-sum-file}</cdo>
+                            <cdo>yearcount ${ifile} ${temp-count-file}</cdo>
+                        </parallel>
+                    </case>
+                </select>
+
+                <tempFile name="sum-file"/>
+                <tempFile name="count-file"/>
+                <tempFile name="merged-file"/>
+
+                <parallel>
+                    <affixToVarNames affix="_${ostep}_${sum-affix}" ifile="${temp-sum-file}" ofile="${sum-file}"/>
+                    <affixToVarNames affix="_${ostep}_${count-affix}" ifile="${temp-count-file}" ofile="${count-file}"/>
+                </parallel>
+
+                <cdo>merge ${sum-file} ${count-file} ${merged-file}</cdo>
+                <cdo>settunits,${time-units} -setreftime,${reference-date},${reference-time} -setcalendar,${calendar} ${merged-file} ${ofile}</cdo>
+            </case>
+        </select>
+
+    </commands>
+</task>
